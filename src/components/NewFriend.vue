@@ -3,13 +3,13 @@
     <form @submit.prevent="onSubmit">
       <div class="group">
         <label>Name</label>
-        <input type="text" v-model="name">
+        <input type="text" v-model="friend.name">
       </div>
       <div class="group">
         <label>age</label>
-        <input type="text" v-model="age">
+        <input type="text" v-model="friend.age">
       </div>
-      <input type="submit" value="Add new Friend">
+      <input type="submit" :value="this.getOperationString">
     </form>
   </div>
 </template>
@@ -17,22 +17,27 @@
 <script>
 export default {
   name: 'new-friend',
-    data(){
-      return {
-          name: '',
-          age: ''
-      }
-    },
-    methods:{
-      onSubmit(){
-          if(this.name && this.age){
-              var name = this.name
-              var age = this.age
-              this.name = this.age = ''
-              this.$emit('friendadded', name, age)
-          }
-      }
+  computed:{
+    getOperationString(){
+      return this.operation == false ? 'Modifier' : 'Ajouter';
     }
+  },
+  props: ['operation', 'friend'],
+  methods:{
+    onSubmit(){
+        if(this.friend.name && this.friend.age){
+            var friend_edited = this.friend 
+            this.friend = null
+            
+            if(this.operation == true){
+              this.$emit('friendadded', friend_edited)
+              return;
+            }
+
+            this.$emit('friendupdated', friend_edited)
+        }
+    }
+  }
 }
 </script>
 
