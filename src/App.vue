@@ -1,17 +1,35 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+    <new-friend></new-friend>
+
+    <ul v-for="friend in friends">
+      <li> {{ friend.name}} is {{ friend.age}}</li>
+    </ul>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import Firebase from 'firebase'
+let config =  {
+    apiKey: "AIzaSyC1s58h60yYPHc_4Jq1VOwp1XlJPVHpTUc",
+    authDomain: "just-talk-6c835.firebaseapp.com",
+    databaseURL: "https://just-talk-6c835.firebaseio.com",
+    projectId: "just-talk-6c835",
+    storageBucket: "just-talk-6c835.appspot.com",
+    messagingSenderId: "44245148892"
+};
+
+let app = Firebase.initializeApp(config);
+let db = app.database();
+
+let friendRef = db.ref('books');
 
 export default {
   name: 'app',
-  components: {
-    HelloWorld
+  firebase: {
+      friends: friendRef
   }
 }
 </script>
