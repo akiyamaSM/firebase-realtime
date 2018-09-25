@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <new-friend></new-friend>
+    <new-friend @friendadded="addItem"></new-friend>
 
     <ul v-for="friend in friends">
       <li> {{ friend.name}} is {{ friend.age}}</li>
@@ -12,6 +12,8 @@
 <script>
 
 import Firebase from 'firebase'
+import NewFriend from './components/NewFriend'
+
 let config =  {
     apiKey: "AIzaSyC1s58h60yYPHc_4Jq1VOwp1XlJPVHpTUc",
     authDomain: "just-talk-6c835.firebaseapp.com",
@@ -28,19 +30,23 @@ let friendRef = db.ref('books');
 
 export default {
   name: 'app',
+  components: {
+      NewFriend
+  },
   firebase: {
       friends: friendRef
-  }
+  },
+    methods: {
+      addItem(name, age){
+          friendRef.push({
+              name,
+              age
+          })
+      }
+    }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
