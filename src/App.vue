@@ -1,10 +1,9 @@
 <template>
   <div id="app">
-
     <new-friend @friendadded="addItem"></new-friend>
 
-    <ul v-for="friend in friends">
-      <li> {{ friend.name}} is {{ friend.age}}</li>
+    <ul v-for="(friend, index) in friends" :key="index">
+      <li> {{ friend.name}} is {{ friend.age}} <span @click="deleteFriend(index)">Close</span></li>
     </ul>
   </div>
 </template>
@@ -42,6 +41,9 @@ export default {
               name,
               age
           })
+      },
+      deleteFriend(index){
+        console.log(index)
       }
     }
 }
