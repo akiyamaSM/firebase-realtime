@@ -10,7 +10,6 @@
 <script>
 
 import Winwheel from 'winwheel'
-
 export default {
     name: 'wheel',
     data(){
@@ -19,6 +18,13 @@ export default {
         }
     },
     mounted(){
+        const plugin = document.createElement("script");
+        plugin.setAttribute(
+            "src",
+            "http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"
+        );
+        plugin.async = true;
+        document.head.appendChild(plugin);
         this.winwheel = new Winwheel({
             'canvasId'    : 'myCanvas',
             'numSegments' : 6,
@@ -38,7 +44,9 @@ export default {
                     'type'     : 'spinToStop',  // Type of animation.
                     'duration' : 5,             // How long the animation is to take in seconds.
                     'spins'    : 8,              // The number of complete 360 degree rotations the wheel is to do.
-                    'callbackAfter' : 'drawTriangle'
+                    'callbackAfter' : function () {
+                        
+                    }
                 }
         });
     },
@@ -47,6 +55,7 @@ export default {
             this.winwheel.startAnimation()
         },
         drawTriangle(){
+            console.log('here');
             var ctx = this.winwheel.ctx;
 
             ctx.strokeStyle = 'navy';     // Set line colour.
@@ -62,6 +71,7 @@ export default {
         }
     }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
