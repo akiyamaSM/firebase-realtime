@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <new-friend @friendadded="addItem" @friendupdated="updateFriend" :operation="is_add" :friend="newFriend"></new-friend>
+    <new-friend @friendadded="addItem" @friendupdated="updateFriend" :friend="newFriend"></new-friend>
 
     <ul v-for="(friend, index) in friends" :key="index">
       <li>
@@ -35,7 +35,6 @@ export default {
   name: 'app',
   data(){
     return {
-      is_add : true,
       newFriend: {
         age: '',
         name: ''
@@ -54,6 +53,7 @@ export default {
               'name': friend.name ,
               'age': friend.age
           })
+          this.clearInput()
       },
       deleteFriend(friend){
         this.getItemRef(friend).remove()
@@ -61,15 +61,19 @@ export default {
       getItemRef(item){
         return friendRef.child(item['.key'])
       },
-
       setToEditFriend(friend){
-        this.is_add = false
         this.newFriend = friend
       },
       updateFriend(friend){
-        console.log("clicked")
+        console.log(friend)
+        this.clearInput()
         //this.getItemRef(friend)
-        this.is_add = true
+      },
+      clearInput(){
+          this.newFriend = {
+              age: '',
+              name: ''
+          };
       }
     }
 }
