@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <wheel></wheel>
     <new-friend @friendadded="addItem" @friendupdated="updateFriend" :friend="newFriend"></new-friend>
 
     <ul v-for="(friend, index) in friends" :key="index">
@@ -16,6 +17,7 @@
 
 import Firebase from 'firebase'
 import NewFriend from './components/NewFriend'
+import Wheel from './components/Wheel'
 
 let config =  {
     apiKey: "AIzaSyC1s58h60yYPHc_4Jq1VOwp1XlJPVHpTUc",
@@ -42,7 +44,8 @@ export default {
     }
   },
   components: {
-      NewFriend
+      NewFriend,
+      Wheel
   },
   firebase: {
       friends: friendRef
