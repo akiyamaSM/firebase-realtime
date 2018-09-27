@@ -10,6 +10,7 @@
 <script>
 
 import Winwheel from 'winwheel'
+
 export default {
     name: 'wheel',
     data(){
@@ -25,6 +26,7 @@ export default {
         );
         plugin.async = true;
         document.head.appendChild(plugin);
+
         this.winwheel = new Winwheel({
             'canvasId'    : 'myCanvas',
             'numSegments' : 6,
@@ -39,14 +41,13 @@ export default {
                     {'text' : 'Segment 5'},
                     {'text' : 'Segment 6'}
                 ],
-            'animation' :                   // Note animation properties passed in constructor parameters.
+            'animation' :                   
                 {
-                    'type'     : 'spinToStop',  // Type of animation.
-                    'duration' : 5,             // How long the animation is to take in seconds.
-                    'spins'    : 8,              // The number of complete 360 degree rotations the wheel is to do.
-                    'callbackAfter' : function () {
-                        
-                    }
+                    'type'     : 'spinToStop',  
+                    'duration' : 5,             
+                    'spins'    : 8,       
+                    'callbackAfter': this.drawTriangle,
+                    'callbackFinished': this.whenFinished   
                 }
         });
     },
@@ -55,7 +56,6 @@ export default {
             this.winwheel.startAnimation()
         },
         drawTriangle(){
-            console.log('here');
             var ctx = this.winwheel.ctx;
 
             ctx.strokeStyle = 'navy';     // Set line colour.
@@ -68,6 +68,12 @@ export default {
             ctx.lineTo(171, 5);
             ctx.stroke();                 // Complete the path by stroking (draw lines).
             ctx.fill();                   // Then fill.
+        },
+        whenFinished(){
+            var winningSegment = this.winwheel.getIndicatedSegment();
+     
+            // Basic alert of the segment text which is the prize name.
+            console.log("You have won " + winningSegment.text + "!");
         }
     }
 }
